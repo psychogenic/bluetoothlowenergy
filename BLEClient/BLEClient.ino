@@ -89,7 +89,7 @@
 
 
 #define BLE_UART_BAUD		9600
-#define SERIALUI_PORT_BAUD	9600
+#define SERIALUI_PORT_BAUD	19200
 
 
 
@@ -103,6 +103,7 @@
 // defined.  If you want HardwareSerial-> SerialUI, 
 // comment it out (BLE will be connected through software 
 // serial which may be unreliable, at least on a breadboard)
+// 
 #define USE_HARDWARE_SERIAL_FOR_BLE
 
 
@@ -119,7 +120,7 @@
 
 // MAX_NUM_UUIDS max number of attributes we'll consider
 // (will cost you at least 28+ATTRIBDESC_MAX_BYTES bytes, each!)
-#define MAX_NUM_UUIDS				12
+#define MAX_NUM_UUIDS				14
 
 
 
@@ -144,7 +145,7 @@
 // have a clue what it entails (don't want to fry 
 // your 'duino), and do a ctrl+f to find what I'm 
 // doing with it below.
-#define FTDI_DIRECT_CONNECT
+// #define FTDI_DIRECT_CONNECT
 
 
 
@@ -169,7 +170,7 @@ SUI_DeclareString(device_greeting,
 
 SUI_DeclareString(top_menu_title, "BGTester Main");
 
-SUI_DeclareString(reset_key, "ble reset");
+SUI_DeclareString(reset_key, "reset");
 SUI_DeclareString(reset_help, "Reset device");
 
 SUI_DeclareString(hello_key, "hello");
@@ -179,7 +180,7 @@ SUI_DeclareString(hello_help, "Say hello/ping");
 SUI_DeclareString(scan_key, "scan");
 SUI_DeclareString(scan_help, "Scan for device addresses");
 
-SUI_DeclareString(connect_key, "connect");
+SUI_DeclareString(connect_key, "conn");
 SUI_DeclareString(connect_help, "Connect to BLE");
 
 SUI_DeclareString(listattribs_key, "list");
@@ -190,13 +191,13 @@ SUI_DeclareString(refresh_key, " ");
 SUI_DeclareString(refresh_help, "Refresh BLE (check incoming messages)");
 
 
-SUI_DeclareString(readattribs_key, "read");
+SUI_DeclareString(readattribs_key, "r attr");
 SUI_DeclareString(readattribs_help, "Read an attribute");
 
-SUI_DeclareString(writeattribs_key, "write");
+SUI_DeclareString(writeattribs_key, "w attr");
 SUI_DeclareString(writeattribs_help, "Write string to attribute");
 
-SUI_DeclareString(writebytesattribs_key, "write bytes");
+SUI_DeclareString(writebytesattribs_key, "wbytes");
 SUI_DeclareString(writebytesattribs_help, "Write bytes to attribute");
 
 
@@ -1260,7 +1261,7 @@ void readAnAttrib(uint8_t attribIdx)
     context.attrib_details[attribIdx].chrhandle);
 
 
-  CHECK_BLE_REPEATEDLY(25, 10);
+  CHECK_BLE_REPEATEDLY(25, 30);
 
   if (context.attrib_details[attribIdx].success)
     return mySUI.returnOK();
@@ -1282,7 +1283,7 @@ void writeAnAttrib(uint8_t attribIdx, uint8_t len, uint8_t * data)
       len, data);
 
 
-  CHECK_BLE_REPEATEDLY(25, 20);
+  CHECK_BLE_REPEATEDLY(25, 30);
 
   if (context.attrib_details[attribIdx].success)
     return mySUI.returnOK();
